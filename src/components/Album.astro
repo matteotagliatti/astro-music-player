@@ -9,10 +9,10 @@ type Props = {
 const { id, name, artist, image_url } = Astro.props;
 ---
 
-<div class="flex flex-col">
-  <a href={`/album/${id}`} class="text-black hover:text-pink-500">
+<div class="flex flex-col group">
+  <a href={`/album/${id}`}>
     <div
-      class="shadow-md hover:shadow-lg relative"
+      class="hover:shadow relative transition-shadow"
       transition:name={`record-${id}`}
     >
       <img
@@ -23,14 +23,16 @@ const { id, name, artist, image_url } = Astro.props;
         height="400"
       />
       <img
-        src="/vynil-lp.webp"
+        src="/vynil.webp"
         width="400"
         height="400"
         transition:name={`vinyl-${id}`}
-        class="absolute top-0 opacity-0 vynil-image opacity-0"
+        class="absolute top-0 opacity-0"
       />
     </div>
-    <p class="pt-4 font-semibold">{name}</p>
+    <p class="pt-4 font-semibold text-black group-hover:text-pink-500">
+      {name}
+    </p>
     <p class="pt-1 text-gray-700">{artist}</p>
   </a>
 </div>
