@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/tailwind": "^4.0.0",
     "astro": "^2.10.9",
+    "spotify-types": "^1.0.7",
     "tailwindcss": "^3.3.3"
   }
 }

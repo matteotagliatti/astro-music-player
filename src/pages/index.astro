@@ -1,7 +1,48 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Album from "../components/Album.astro";
+
+import type { Album as AlbumSpotify } from "spotify-types";
+import type { Album as AlbumAstro } from "../types";
+
+import { getTopAlbums } from "../api/spotify";
+const data = await getTopAlbums();
+let albums: AlbumAstro[] = [];
+
+if (data.albums) {
+  albums = data.albums.map((album: AlbumSpotify) => {
+    return {
+      id: album.id,
+      name: album.name,
+      artist: album.artists[0].name,
+      url: album.external_urls.spotify,
+      image_url: album.images[0].url,
+    };
+  });
+}
 ---
 
-<Layout title="Astro Music Player">
-  <!--  -->
+<Layout title="Home">
+  <section class="py-8">
+    <div
+      class="container mx-auto max-w-screen-lg px-6 lg:px-0 flex items-center flex-wrap pt-4 pb-12"
+    >
+      <h2 class="font-bold text-3xl text-black tracking-tight mb-12">
+        Favorite Albums
+      </h2>
+
+      <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-6">
+        {
+          albums.map((album: AlbumAstro) => (
+            <Album
+              id={album.id}
+              name={album.name}
+              artist={album.artist}
+              image_url={album.image_url}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
 </Layout>
