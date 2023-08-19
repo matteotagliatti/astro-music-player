@@ -61,7 +61,13 @@ album = {
       </div>
     </div>
     <div class="container mx-auto max-w-screen-lg mb-10">
-      <Tracklist tracks={album.tracks} client:visible />
+      <Tracklist
+        id={album.id}
+        artist={album.artist}
+        image_url={album.image_url}
+        tracks={album.tracks}
+        client:visible
+      />
     </div>
   </main>
 </Layout>

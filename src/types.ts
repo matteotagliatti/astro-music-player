@@ -16,7 +16,6 @@ export type Track = {
 };
 
 export type PlayerTrack = Track & {
-  id: string;
   artist: string;
   image_url: string;
 };
