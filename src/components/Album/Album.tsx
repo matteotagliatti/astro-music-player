@@ -1,4 +1,5 @@
 import { useStore } from "@nanostores/react";
+import { useEffect, useState } from "react";
 import { currentTrack, isPlaying } from "./state";
 
 export default function Album({
@@ -10,14 +11,18 @@ export default function Album({
   name: string;
   image_url: string;
 }) {
-  /* const $isPlaying = useStore(isPlaying);
-  const $currentTrack = useStore(currentTrack); */
-  let className = "absolute top-0 opacity-0 vynil-image vynil-animation-in";
+  const $isPlaying = useStore(isPlaying);
+  const $currentTrack = useStore(currentTrack);
+  const [className, setClassName] = useState<string>(
+    "absolute top-0 opacity-0 vynil-image vynil-animation-in"
+  );
 
-  /* if ($currentTrack && $isPlaying) {
-    const isPlayingCurrentRecord = $isPlaying && $currentTrack.album_id === id;
-    if (isPlayingCurrentRecord) className += "-spinning";
-  } */
+  useEffect(() => {
+    if ($isPlaying && $currentTrack?.album_id === id)
+      setClassName(
+        "absolute top-0 opacity-0 vynil-image vynil-animation-in-spinning"
+      );
+  }, [$isPlaying, $currentTrack, id]);
 
   return (
     <div className="relative shadow-xl mr-32 w-72 lg:w-auto">
