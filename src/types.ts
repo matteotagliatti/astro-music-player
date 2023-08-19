@@ -16,6 +16,7 @@ export type Track = {
 };
 
 export type PlayerTrack = Track & {
+  album_id: string;
   artist: string;
   image_url: string;
 };

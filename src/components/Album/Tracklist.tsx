@@ -40,7 +40,7 @@ const pauseIcon = (
   </svg>
 );
 
-export default function TrackList({ tracks, artist, image_url }: Props) {
+export default function TrackList({ tracks, id, artist, image_url }: Props) {
   return (
     <ul className="text-xl">
       {tracks.map((track) => {
@@ -55,19 +55,20 @@ export default function TrackList({ tracks, artist, image_url }: Props) {
             onClick={() => {
               currentTrack.set({
                 ...track,
+                album_id: id,
                 artist: artist,
                 image_url: image_url,
               });
               isPlaying.set(true);
             }}
           >
-            <span className="text-gray-500 w-8 mr-2">
+            <div className="text-gray-500 w-8 mr-2">
               {isCurrentTrack && !$isPlaying
                 ? pauseIcon
                 : isCurrentTrack && $isPlaying
                 ? playIcon
                 : track.position}
-            </span>
+            </div>
             <span className="font-medium">{track.name}</span>
             <span className="text-gray-500 ml-auto">{track.length}</span>
           </li>
