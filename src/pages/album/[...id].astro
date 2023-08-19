@@ -1,10 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Album from "../../components/Album/Album";
+import Tracklist from "../../components/Album/Tracklist";
 
 const { id } = Astro.params;
 
-import type { Album as AlbumSpotify } from "spotify-types";
+import type {
+  Album as AlbumSpotify,
+  Track as TrackSpotify,
+} from "spotify-types";
 import type { Album as AlbumAstro } from "../../types";
 
 import { getAlbum } from "../../api/spotify";
@@ -22,6 +26,18 @@ album = {
   image_url: data.images[0].url,
   year: data.release_date,
   url: data.external_urls.spotify,
+  tracks: data.tracks.items.map((track: TrackSpotify) => ({
+    id: track.id,
+    name: track.name,
+    length: `${Math.floor(track.duration_ms / 60000)}:${(
+      (track.duration_ms % 60000) /
+      1000
+    )
+      .toFixed(0)
+      .padStart(2, "0")}`,
+    position: track.track_number,
+    url: track.external_urls.spotify,
+  })),
 };
 ---
 
@@ -30,7 +46,12 @@ album = {
     <div
       class="container mx-auto max-w-screen-lg px-6 lg:px-0 flex flex-col items-start lg:items-end lg:flex-row pt-8 pb-12 overflow-hidden"
     >
-      <Album id={album.id} name={album.name} image_url={album.image_url} />
+      <Album
+        client:visible
+        id={album.id}
+        name={album.name}
+        image_url={album.image_url}
+      />
       <div class="flex-1 flex flex-col justify-end pt-8">
         <h1 class="text-5xl font-bold text-black mb-3">
           {album.name}
@@ -40,7 +61,7 @@ album = {
       </div>
     </div>
     <div class="container mx-auto max-w-screen-lg mb-10">
-      <!-- Tracklist -->
+      <Tracklist tracks={album.tracks} client:visible />
     </div>
   </main>
 </Layout>
