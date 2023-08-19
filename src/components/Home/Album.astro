@@ -12,11 +12,11 @@ const { id, name, artist, image_url } = Astro.props;
 <div class="flex flex-col group">
   <a href={`/album/${id}`}>
     <div
-      class="hover:shadow relative transition-shadow"
-      transition:name={`record-${id}`}
+      class="hover:shadow-md relative transition-shadow"
+      transition:name={`album-${id}`}
     >
       <img
-        class="card-image rounded-md relative z-10"
+        class="rounded-md relative z-10"
         src={image_url}
         alt={name}
         width="400"
