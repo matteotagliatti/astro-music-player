@@ -22,6 +22,12 @@ export default function Album({
       setClassName(
         "absolute top-0 opacity-0 vynil-image vynil-animation-in-spinning"
       );
+    else if (!$isPlaying && $currentTrack?.album_id === id)
+      setClassName(
+        "absolute top-0 opacity-0 vynil-image vynil-animation-stop-spinning"
+      );
+    else
+      setClassName("absolute top-0 opacity-0 vynil-image vynil-animation-in");
   }, [$isPlaying, $currentTrack, id]);
 
   return (
