@@ -4,4 +4,5 @@ export type Album = {
   artist: string;
   url: string;
   image_url: string;
+  year: string;
 };

@@ -39,3 +39,12 @@ export const getTopAlbums = async () => {
     },
   });
 };
+
+export const getAlbum = async (id: string) => {
+  const { access_token } = await getAccessToken();
+  return get(`https://api.spotify.com/v1/albums/${id}?market=IT`, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+};
