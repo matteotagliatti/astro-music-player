@@ -1,4 +1,5 @@
 import { useStore } from "@nanostores/react";
+import { useEffect, useState } from "react";
 import type { Track } from "../../types";
 import { currentTrack, isPlaying } from "./state";
 
@@ -47,6 +48,17 @@ export default function TrackList({ tracks, id, artist, image_url }: Props) {
         const $currentTrack = useStore(currentTrack);
         const $isPlaying = useStore(isPlaying);
         const isCurrentTrack = $currentTrack?.id === track.id;
+        const [icon, setIcon] = useState<JSX.Element | number>(track.position);
+
+        useEffect(() => {
+          if (isCurrentTrack && $isPlaying) {
+            setIcon(pauseIcon);
+          } else if (isCurrentTrack && !$isPlaying) {
+            setIcon(playIcon);
+          } else {
+            setIcon(track.position);
+          }
+        }, [isCurrentTrack, $isPlaying]);
 
         return (
           <li
@@ -59,16 +71,12 @@ export default function TrackList({ tracks, id, artist, image_url }: Props) {
                 artist: artist,
                 image_url: image_url,
               });
-              isPlaying.set(true);
+
+              if (isCurrentTrack) isPlaying.set(!$isPlaying);
+              else if (!isCurrentTrack) isPlaying.set(true);
             }}
           >
-            <div className="text-gray-500 w-8 mr-2">
-              {isCurrentTrack && !$isPlaying
-                ? pauseIcon
-                : isCurrentTrack && $isPlaying
-                ? playIcon
-                : track.position}
-            </div>
+            <div className="text-gray-500 w-8 mr-2">{icon}</div>
             <span className="font-medium">{track.name}</span>
             <span className="text-gray-500 ml-auto">{track.length}</span>
           </li>
