@@ -5,10 +5,7 @@ import Tracklist from "../../components/Album/Tracklist";
 
 const { id } = Astro.params;
 
-import type {
-  Album as AlbumSpotify,
-  Track as TrackSpotify,
-} from "spotify-types";
+import type { Track as TrackSpotify } from "spotify-types";
 import type { Album as AlbumAstro } from "../../types";
 
 import { getAlbum } from "../../api/spotify";
@@ -17,14 +14,17 @@ let album: AlbumAstro;
 
 if (!id) return Astro.redirect("/404");
 
-const data: AlbumSpotify = await getAlbum(id);
+const data: any = await getAlbum(id);
 
 album = {
   id: data.id,
   name: data.name,
   artist: data.artists[0].name,
   image_url: data.images[0].url,
-  year: data.release_date,
+  year:
+    data.release_date_precision !== "year"
+      ? data.release_date.split("-")[0]
+      : data.release_date,
   url: data.external_urls.spotify,
   tracks: data.tracks.items.map((track: TrackSpotify) => ({
     id: track.id,
