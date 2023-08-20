@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Album from "../../components/Album/Album";
 import Tracklist from "../../components/Album/Tracklist";
+import PlayButton from "../../components/Album/PlayButton";
 
 const { id } = Astro.params;
 
@@ -57,7 +58,16 @@ album = {
           {album.name}
         </h1>
         <p class="mb-2 text-3xl">{album.artist}</p>
-        <p class="text-lg">{album.year}</p>
+        <p class="mb-6 text-lg">{album.year}</p>
+        <div>
+          <PlayButton
+            tracks={album.tracks}
+            id={album.id}
+            artist={album.artist}
+            image_url={album.image_url}
+            client:load
+          />
+        </div>
       </div>
     </div>
     <div class="container mx-auto max-w-screen-lg mb-10">
