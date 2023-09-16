@@ -1,6 +1,7 @@
 ---
 import { ViewTransitions } from "astro:transitions";
 import Header from "../components/Header.astro";
+import Player from "../components/Album/Player";
 import "../styles/transitions.css";
 
 export interface Props {
@@ -19,10 +20,13 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>Astro Music Player - {title}</title>
-    <ViewTransitions />
+    <ViewTransitions fallback="swap" />
   </head>
   <body class="bg-white text-gray-600 overflow-y-scroll">
-    <Header transition:persist />
+    <Header transition:persist="header" />
     <slot />
+    <div id="audio-player">
+      <Player client:load transition:persist="player" />
+    </div>
   </body>
 </html>
