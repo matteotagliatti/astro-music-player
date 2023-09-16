@@ -1,5 +1,5 @@
-import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
+import { defineConfig } from "astro/config";
 
 import react from "@astrojs/react";
 
@@ -7,7 +7,4 @@ import react from "@astrojs/react";
 export default defineConfig({
   output: "server",
   integrations: [tailwind(), react()],
-  experimental: {
-    viewTransitions: true
-  }
 });
