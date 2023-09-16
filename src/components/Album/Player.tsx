@@ -36,16 +36,36 @@ export default function Player() {
   const $currentTrack = useStore(currentTrack);
   const $isPlaying = useStore(isPlaying);
   const audioPlayer = useRef<HTMLAudioElement>(null);
+  const progressRef = useRef(0);
   const [progress, setProgress] = useState(0);
+
+  function whilePlaying() {
+    if (audioPlayer.current?.duration) {
+      const percentage =
+        (audioPlayer.current.currentTime * 100) / audioPlayer.current.duration;
+
+      setProgress(percentage);
+    }
+    progressRef.current = requestAnimationFrame(whilePlaying);
+  }
 
   useEffect(() => {
     if ($isPlaying) {
       audioPlayer.current?.play();
+      progressRef.current = requestAnimationFrame(whilePlaying);
     } else {
       audioPlayer.current?.pause();
+      cancelAnimationFrame(progressRef.current);
     }
   }),
     [$isPlaying];
+
+  useEffect(() => {
+    if (progress >= 99.99) {
+      isPlaying.set(false);
+      setProgress(0);
+    }
+  }, [progress]);
 
   if ($currentTrack === null) {
     return;
@@ -77,7 +97,7 @@ export default function Player() {
           </p>
         </div>
         <audio ref={audioPlayer} src="/audio.mp3" />
-        <div className="flex gap-6 items-center text-black">
+        <div className="flex gap-6 items-center justify-center text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
