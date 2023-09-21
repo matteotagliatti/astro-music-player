@@ -90,7 +90,7 @@ export default function Player() {
   const { name, artist, image_url } = $currentTrack;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-100">
+    <div className="z-10 fixed bottom-0 left-0 right-0 bg-gray-100">
       <div className="flex-1 bg-gray-200 h-1.5">
         <div
           className="bg-pink-500 h-1.5"
